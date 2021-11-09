@@ -13,7 +13,8 @@ try:
         for name in profile_names:
             wifi_profiles = {}
 
-            profile_detail = subprocess.run(["netsh", "wlan", "show", "profile", name], capture_output=True).stdout.decode()
+            profile_detail = subprocess.run(["netsh", "wlan", "show", "profile", name],
+                                            capture_output=True).stdout.decode()
 
             if re.search("Security key           : Absent", profile_detail):
                 continue
@@ -35,11 +36,15 @@ try:
 
     print("[+] Found Profiles Successfully\n")
 
-    for num in range(len(wifi_list)):
-        print('[+] Wifi Name: "', wifi_list[num]['SSID'], '"')
-        print("\tPassword: ", wifi_list[num]['Password'], '\n')
-        print('===============================\n')
-
-
-except :
-    print("[-] A profile is corrupted.")
+    try:
+        with open("little.txt", "w+") as file:
+            for num in range(len(wifi_list)):
+                file.write(f'[+] Wifi Name:{wifi_list[num]["SSID"]}\n')
+                file.write(f"\tPassword: {wifi_list[num]['Password']}\n")
+                file.write('===============================\n')
+        print("[+] File created successfully")
+    except:
+        print("[-] Error in creating File")
+        
+except:
+    print("[-] Error in profile")

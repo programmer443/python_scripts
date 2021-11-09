@@ -1,9 +1,12 @@
 from scapy.all import *
+from time import sleep
 import re
+
+
 
 interface = str(input("[+] Enter the interface: \n"))
 
-mac_address = input('[+] Enter a MAC address: ')
+mac_address = input('[+] Enter device MAC address: ')
 isvalid = re.match('(?=[a-f0-9]{2}:){5}[a-f0-9]{2}', mac_address, re.I)
 
 if isvalid:
@@ -24,7 +27,7 @@ if isvalid:
         for i in range(0, max_value):
             print("[+] Packet Manipulated Successfully\n", packet[0].show())
             sendp(packet[0], loop=0, verbose=1)
-            time.sleep(1)
+            sleep(1)
     except:
         print("[-] Error occurred")
 else:
